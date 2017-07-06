@@ -7,22 +7,34 @@
     auth.controller('AuthController', function($scope, $http, $resource, $location, usersUrl) {
         var self = this;
 
-        self.User={};
+        self.User={}; // object binded with Login form data
 
-       $scope.usersResource = $resource(usersUrl + ":id", {id: "@id"});
+        $scope.usersResource = $resource(usersUrl + ":id", {id: "@id"});
 
-       $scope.users = $scope.usersResource.query(); // get all users with query() method from ngResource
+        $scope.users = $scope.usersResource.query(); // get all users with query() method from ngResource(database)
 
-        $scope.usersArr = $resource(usersUrl, null, {
-            query: {
-                method: 'GET',
-                isArray: false,
-                transformResponse: function(data) {
-                    return angular.fromJson(data).items;
-                }
-            }
-        });
+
+
+        //Attemp convert users colection to Array - false
+        // $scope.usersArr = $resource("http://localhost:2403/users/fields=userEmail%2", {}, {
+        //     query: {
+        //         method: 'GET',
+        //         isArray: true,
+        //         transformResponse: function(data, header) {
+        //             var wrappedobj = angular.fromJson(data);
+        //             return wrappedobj.record;
+        //         }
+        //     }
+        // });
+
+        //console.log($scope.usersArr);
+
+
+        //Main method that change location after success submit
         self.getUserPage = function(){
+
+
+            $scope.users; //Созадть  метод который вернет массив объектов и сравнить с данными с формы
 
             console.log($scope.usersArr );
 
